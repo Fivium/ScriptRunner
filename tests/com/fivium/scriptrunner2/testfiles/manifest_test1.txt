@@ -1,0 +1,19 @@
+PROMOTION {promotion_label="manifest_test", scriptrunner_version="test"}
+
+# Main files 
+
+001000: Patch           DatabasePatches/CorePatches/PATCHCORE00001 (test 1).sql         {p1="v1"}
+002000: Source          /DatabaseSource/CoreSource/PACKAGE.pkb {p2="v2"}
+003000:       Patch           DatabasePatches\CorePatches\PATCHCORE00002 (test 2).sql        
+
+# Augmentation
+
+~ Different_Source          /DatabaseSource/CoreSource/PACKAGE.pkb                           {p3="v3"}
+
+# Forced duplicate
+
+002050: Source          +/DatabaseSource/CoreSource/PACKAGE.pkb {p4="v4"}
+
+# Dodgy name
+
+005000: Source          /DatabaseSource/CoreSource/File's dodgy#name {here+%}.txt         {p1="v1"}

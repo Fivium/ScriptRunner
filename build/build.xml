@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<project xmlns="antlib:org.apache.tools.ant" name="ScriptRunner2" default="all" basedir=".">
+  <!--property file="build.properties"/-->
+  <property name="output.dir" value="../build-output"/>
+  <property name="lib.dir" value="../lib"/>
+  <path id="library.ScriptRunner">
+    <fileset dir="../lib">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+  <path id="library.JUnit">
+    <fileset dir="../test-lib">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+  <path id="classpath">
+    <path refid="library.ScriptRunner"/>
+  </path>
+  <path id="classpath-tests">
+    <path refid="library.ScriptRunner"/>
+    <path refid="library.JUnit"/>
+  </path>
+   <patternset id="copy.patterns">
+    <include name="**/*.properties"/>
+    <include name="**/*.xml"/>
+    <include name="**/*.xsd"/>
+    <include name="**/*.xsl"/>
+    <include name="**/*.sql"/>
+    <include name="**/*.txt"/>
+    <include name="**/*.cfg"/>
+    <include name="**/*.mf"/>
+  </patternset>
+  
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${output.dir}"/>
+    <mkdir dir="${output.dir}/classes"/>
+    <mkdir dir="${output.dir}/test-classes"/>
+    <mkdir dir="${output.dir}/jar"/>
+  </target>
+  <target name="all" description="Build the project" depends="clean,compile,copy,build-jar,test"/>
+  
+  <target name="clean" description="Clean the project">
+    <delete includeemptydirs="true" quiet="true">
+      <fileset dir="${output.dir}" includes="**/*"/>
+    </delete>
+  </target>
+  
+  <target name="compile" description="Compile Java source files" depends="init">
+    <javac destdir="${output.dir}/classes" classpathref="classpath" debug="true" nowarn="off"
+           deprecation="off" encoding="Cp1252" source="1.6" target="1.6" debuglevel="lines,vars,source">
+      <src path="../src"/>
+    </javac>
+  </target>
+  
+  <target name="test">
+    <antcall target="compile-tests"/>
+    <antcall target="copy-test-files"/>
+    <antcall target="run-junit"/>
+  </target>
+  
+  <target name="compile-tests">
+    <javac destdir="${output.dir}/test-classes"  debug="true" nowarn="off"
+           deprecation="off" encoding="Cp1252" source="1.6" target="1.6" debuglevel="lines,vars,source">
+      <classpath>
+        <path refid="classpath-tests"/>
+        <pathelement location="${output.dir}/classes"/>
+      </classpath>
+      <src path="../tests"/>
+    </javac>
+  </target>
+  
+  <target name="run-junit">
+    <junit fork="yes" printsummary="yes" haltonfailure="yes" showoutput="yes">
+      <classpath refid="classpath-tests"/>
+      <classpath path="${output.dir}/classes"/>
+      <classpath path="${output.dir}/test-classes"/>
+      <formatter type="xml"/>
+      <batchtest todir="${output.dir}">
+        <fileset dir="${output.dir}/test-classes">
+          <include name="**/*.class"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+  
+   <target name="copy-test-files" description="Copy test files to test class directory"> 
+    <copy todir="${output.dir}/test-classes">
+      <fileset dir="../tests">
+        <patternset refid="copy.patterns"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="copy" description="Copy files to output directory" depends="init"> 
+    <copy todir="${output.dir}/classes">
+      <fileset dir="../src">
+        <patternset refid="copy.patterns"/>
+      </fileset>
+    </copy>
+    <input message="Please enter ScriptRunner version, e.g. 2.X.Y (default=DEV):" addproperty="scriptrunner.version" defaultvalue="DEV"/>
+    <echo file="${output.dir}/classes/com/fivium/ScriptRunner2/util/version.properties">version_number=${scriptrunner.version}
+software_name=Fivium ScriptRunner</echo>
+  </target>
+  <target name="build-jar">
+    <!--<jar destfile="${output.dir}/jar/ScriptRunner.jar"
+         basedir="${output.dir}/classes"
+         excludes="META-INF"
+         level="9">
+      <zipgroupfileset dir="${lib.dir}"/>  
+      <manifest>
+        <attribute name="Main-Class" value="com.fivium.scriptrunner2.Main"/>
+      </manifest>
+    </jar>-->
+    
+    <jar jarfile="${output.dir}/jar/external-libs.jar">
+      <zipgroupfileset dir="${lib.dir}">
+        <include name="**/*.jar"/>
+      </zipgroupfileset>
+    </jar>
+    <!--<sleep seconds="1"/>-->
+    <jar destfile="${output.dir}/jar/ScriptRunner.jar" basedir="${output.dir}/classes" level="9">      
+      <zipfileset src="${output.dir}/jar/external-libs.jar">
+        <exclude name="META-INF/**"/>
+      </zipfileset>
+      <manifest>
+        <attribute name="Main-Class" value="com.fivium.scriptrunner2.Main"/>
+      </manifest>
+    </jar>
+    <delete file="${output.dir}/jar/external-libs.jar"/>
+  </target>
+</project>

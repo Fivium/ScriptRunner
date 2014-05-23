@@ -1,0 +1,3 @@
+~  /SourceFolder/Source1.txt        {add_prop="abc"}
+~  /SourceFolder/Source2.txt        {add_prop="abc", new_prop="should-be-overloaded"}
+~  /SourceFolder/Source1.txt        {add_prop="abc"}

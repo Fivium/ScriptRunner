@@ -1,0 +1,23 @@
+PROMOTION {add_prop="1"}
+
+#Comment line should be ignored
+
+000050:  Loader3     +/SourceFolder2/OtherSource2.txt      
+
+~  /SourceFolder/Source1.txt        {new_prop="1"}
+~  Loader2 /SourceFolder/Source2.txt        {new_prop="2"}
+~  Loader1 /SourceFolder2/OtherSource2.txt  {new_prop="3"}
+
+~  SourceFolder2/OtherSource1.txt   {standard_prop="b", new_prop_2="x"}
+
+
+0003500:  Loader1      /SourceFolder/Source3.txt
+
+0004000:  Loader1     /SourceFolder2/OtherSource1.txt  {new_prop="1"}
+
+0005000:  Loader2     +/SourceFolder2/OtherSource2.txt   {new_prop="4", standard_prop="c"}      
+
+#note slashes should be normalised
+0006000:  Loader1      \SourceFolder2\OtherSource5.txt
+0006001:  Loader2     +/SourceFolder2/OtherSource5.txt
+
