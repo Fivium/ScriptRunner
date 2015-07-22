@@ -154,6 +154,7 @@ public class Installer {
    * Creates the promotion user.
    * @param pDatabaseConnection Connection to use to create user (should be SYSDBA).
    * @param pPromoteUserName Name of new promotion user.
+   * @param pPassword The password passed in to the command line. If XFUtil.isNull, then it'll be prompted
    * @return The password of the new user.
    * @throws ExInstaller If the user cannot be created.
    */
@@ -162,13 +163,13 @@ public class Installer {
 
     String lPassword = pPassword;
     //Prompt user for password
-    if (null == pPassword){
-        lPassword = CommandLineWrapper.readPassword("Enter password for new " + pPromoteUserName + " user");
-        String lConfirmPassword = CommandLineWrapper.readPassword("Confirm password");
+    if (XFUtil.isNull(pPassword) ){
+      lPassword = CommandLineWrapper.readPassword("Enter password for new " + pPromoteUserName + " user");
+      String lConfirmPassword = CommandLineWrapper.readPassword("Confirm password");
 
-        if(!lPassword.equals(lConfirmPassword)){
-            throw new ExInstaller("Passwords did not match");
-        }
+      if(!lPassword.equals(lConfirmPassword)){
+        throw new ExInstaller("Passwords did not match");
+      }
     }
     
     String lCreateUserSQL;
