@@ -25,7 +25,9 @@ public enum CommandLineOption {
   , DB_SYSDBA("sysdba")
   , OUTPUT_FILE_PATH("outfile")
   , PROMOTION_LABEL("label")
-  , ADDITIONAL_PROPERTIES("props");
+  , ADDITIONAL_PROPERTIES("props")
+  , INSTALL_PROMOTE_USER("newpromoteuser")
+  , INSTALL_PROMOTE_PASSWORD("newpromotepassword");
   
   private final String mArgString;
   

@@ -66,6 +66,9 @@ public class CommandLineWrapper {
     gCommandLineOptions.addOption(CommandLineOption.PROMOTE_PASSWORD.getArgString(), true, "Specify the password for the database user. If not specified this will be prompted for.");
     
     gCommandLineOptions.addOption(CommandLineOption.JDBC_CONNECT_STRING.getArgString(), true, "A full JDBC connect string for establishing a database connection.");
+
+    gCommandLineOptions.addOption(CommandLineOption.INSTALL_PROMOTE_USER.getArgString(), true, "(install only) The new promotion user to create.");
+    gCommandLineOptions.addOption(CommandLineOption.INSTALL_PROMOTE_PASSWORD.getArgString(), true, "(install only) The password to use for the new promote user.");
     
     gCommandLineOptions.addOption(CommandLineOption.DB_HOST.getArgString(), true, "Database hostname.");
     gCommandLineOptions.addOption(CommandLineOption.DB_PORT.getArgString(), true, "Database port.");
