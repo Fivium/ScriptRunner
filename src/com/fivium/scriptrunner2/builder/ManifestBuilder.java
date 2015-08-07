@@ -17,6 +17,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.net.URI;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -145,7 +148,10 @@ implements FileResolver {
   
   @Override
   public String relativeFilePath(File pFile){
-    return ScriptRunner.normaliseFilePath(mBaseDirectory.toURI().relativize(pFile.toURI()).getPath());
+    Path lBaseDirectoryPath = FileSystems.getDefault().getPath(mBaseDirectory.getAbsolutePath());
+    Path lFilePath = FileSystems.getDefault().getPath(pFile.getAbsolutePath());
+    Path lRelative = lBaseDirectoryPath.relativize(lFilePath);
+    return ScriptRunner.normaliseFilePath(lRelative.toString());
   }  
   
   /**
