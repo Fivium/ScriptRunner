@@ -8,6 +8,9 @@ import com.fivium.scriptrunner2.util.ScriptRunnerVersion;
 import java.io.File;
 import java.io.IOException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.cli.ParseException;
@@ -110,7 +113,8 @@ public class Main {
       }
     }
     catch (Throwable th){
-      System.err.println("Error encountered while running ScriptRunner (see log for details):");
+      String timeStamp = Logger.LOG_FILE_LOG_TIMESTAMP_FORMAT.format(new Date());
+      System.err.println("[" + timeStamp + "] Error encountered while running ScriptRunner (see log for details):");
       System.err.println(th.getMessage());
       if(!lCommandLineOptions.hasOption(CommandLineOption.RUN)){
         //Error will already have been logged by runner; for all others log it now

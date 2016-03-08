@@ -38,7 +38,7 @@ public class Logger {
   private static final String LOG_FILE_NAME_PREFIX = "ScriptRunner-";
   private static final String LOG_FILE_NAME_SUFFIX = ".log";
   private static final DateFormat LOG_FILE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-  private static final DateFormat LOG_FILE_LOG_TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  public static final DateFormat LOG_FILE_LOG_TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   
   private static File gLogFile = null;
   
