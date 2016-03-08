@@ -38,6 +38,7 @@ public class Logger {
   private static final String LOG_FILE_NAME_PREFIX = "ScriptRunner-";
   private static final String LOG_FILE_NAME_SUFFIX = ".log";
   private static final DateFormat LOG_FILE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+  private static final DateFormat LOG_FILE_LOG_TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
   
   private static File gLogFile = null;
   
@@ -125,9 +126,11 @@ public class Logger {
    * @param pString Message.
    */
   private static void log(String pString){
-    //TODO log timestamps?
     for(Writer lWriter : gLogWriterList){
+      String timeStamp = LOG_FILE_LOG_TIMESTAMP_FORMAT.format(new Date());
       try {
+        lWriter.write("[" + timeStamp + "] ");
+
         lWriter.write(pString);     
         lWriter.write("\n");
         lWriter.flush();
