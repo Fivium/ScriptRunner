@@ -25,7 +25,8 @@ public enum CommandLineOption {
   , DB_SYSDBA("sysdba")
   , OUTPUT_FILE_PATH("outfile")
   , PROMOTION_LABEL("label")
-  , ADDITIONAL_PROPERTIES("props");
+  , ADDITIONAL_PROPERTIES("props")
+  , NO_UNIMPLICATED_FILES("nounimplicatedfiles");
   
   private final String mArgString;
   
