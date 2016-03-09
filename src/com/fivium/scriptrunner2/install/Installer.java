@@ -81,11 +81,17 @@ public class Installer {
     }
     
     //Prompt user for promote user name
-    String lPromoteUserName = CommandLineWrapper.readArg("Enter name for new promotion user (leave blank for default - " + DatabaseConnection.DEFAULT_PROMOTE_USER + ")", true);
-    lPromoteUserName = XFUtil.nvl(lPromoteUserName, DatabaseConnection.DEFAULT_PROMOTE_USER).toUpperCase();    
+    String lPromoteUserName = mCommandLineWrapper.getOption(CommandLineOption.INSTALL_PROMOTE_USER);
+    lPromoteUserName = XFUtil.nvl(lPromoteUserName, DatabaseConnection.DEFAULT_PROMOTE_USER).toUpperCase();
+
+    String lArgPassword = null;
+
+    if (mCommandLineWrapper.hasOption(CommandLineOption.INSTALL_PROMOTE_PASSWORD)){
+      lArgPassword = mCommandLineWrapper.getOption(CommandLineOption.INSTALL_PROMOTE_PASSWORD);
+    }
     
     //Create the new promote user
-    String lNewPassword = createUser(lDatabaseConnection, lPromoteUserName);
+    String lNewPassword = createUser(lDatabaseConnection, lPromoteUserName, lArgPassword);
     
     Logger.logAndEcho("Setting user privileges...");
     
@@ -148,18 +154,22 @@ public class Installer {
    * Creates the promotion user.
    * @param pDatabaseConnection Connection to use to create user (should be SYSDBA).
    * @param pPromoteUserName Name of new promotion user.
+   * @param pPassword The password passed in to the command line. If XFUtil.isNull, then it'll be prompted
    * @return The password of the new user.
    * @throws ExInstaller If the user cannot be created.
    */
-  private String createUser(DatabaseConnection pDatabaseConnection, String pPromoteUserName) 
-  throws ExInstaller {    
-    
+  private String createUser(DatabaseConnection pDatabaseConnection, String pPromoteUserName, String pPassword)
+  throws ExInstaller {
+
+    String lPassword = pPassword;
     //Prompt user for password
-    String lPassword = CommandLineWrapper.readPassword("Enter password for new " + pPromoteUserName + " user");
-    String lConfirmPassword = CommandLineWrapper.readPassword("Confirm password");
-    
-    if(!lPassword.equals(lConfirmPassword)){
-      throw new ExInstaller("Passwords did not match");
+    if (XFUtil.isNull(pPassword) ){
+      lPassword = CommandLineWrapper.readPassword("Enter password for new " + pPromoteUserName + " user");
+      String lConfirmPassword = CommandLineWrapper.readPassword("Confirm password");
+
+      if(!lPassword.equals(lConfirmPassword)){
+        throw new ExInstaller("Passwords did not match");
+      }
     }
     
     String lCreateUserSQL;

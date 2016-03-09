@@ -99,7 +99,7 @@
       </fileset>
     </copy>
     <input message="Please enter ScriptRunner version, e.g. 2.X.Y (default=DEV):" addproperty="scriptrunner.version" defaultvalue="DEV"/>
-    <echo file="${output.dir}/classes/com/fivium/ScriptRunner2/util/version.properties">version_number=${scriptrunner.version}
+    <echo file="${output.dir}/classes/com/fivium/scriptrunner2/util/version.properties">version_number=${scriptrunner.version}
 software_name=Fivium ScriptRunner</echo>
   </target>
   <target name="build-jar">
