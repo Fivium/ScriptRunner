@@ -87,6 +87,8 @@ public class CommandLineWrapper {
     gCommandLineOptions.addOption(CommandLineOption.OUTPUT_FILE_PATH.getArgString(), true, "(Build only) File path where the output will be written to. Default is {CURRENT_DIR}/{PROMOTE_LABEL}.zip");
     gCommandLineOptions.addOption(CommandLineOption.PROMOTION_LABEL.getArgString(), true, "(Build only) Promotion label for builder.");
     gCommandLineOptions.addOption(CommandLineOption.ADDITIONAL_PROPERTIES.getArgString(), true, "(Build only) Location of the additional properties file for the builder.");
+
+    gCommandLineOptions.addOption(CommandLineOption.NO_UNIMPLICATED_FILES.getArgString(), false, "(Build only) Error (rather than warn) if files are found in source directory but not implicated by manifest builder rules.");
     
     //gCommandLineOptions.addOption("help", false, "Prints help.");
   }

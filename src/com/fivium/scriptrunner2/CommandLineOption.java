@@ -27,14 +27,15 @@ public enum CommandLineOption {
   , PROMOTION_LABEL("label")
   , ADDITIONAL_PROPERTIES("props")
   , INSTALL_PROMOTE_USER("newpromoteuser")
-  , INSTALL_PROMOTE_PASSWORD("newpromotepassword");
-  
+  , INSTALL_PROMOTE_PASSWORD("newpromotepassword")
+  , NO_UNIMPLICATED_FILES("nounimplicatedfiles");
+
   private final String mArgString;
-  
+
   private CommandLineOption(String pArgString){
     mArgString = pArgString;
   }
-  
+
   /**
    * Gets the command line argument string which this enum represents.
    * @return Argument string.
@@ -42,5 +43,5 @@ public enum CommandLineOption {
   public String getArgString(){
     return mArgString;
   }
-  
+
 }

@@ -97,9 +97,19 @@ public class ScriptBuilder {
     lFilePathsInBaseDirectory.removeAll(lImplicatedManifestFilePaths);
     
     if(lFilePathsInBaseDirectory.size() > 0){
-      Logger.logWarning(lFilePathsInBaseDirectory.size() + " files found in source directory but not implicated by manifest builder rules:");
-      for(String lPath : lFilePathsInBaseDirectory){
-        Logger.logInfo(lPath);
+      String warningMessage = lFilePathsInBaseDirectory.size() + " files found in source directory but not implicated by manifest builder rules:";
+      if(pOptionWrapper.hasOption(CommandLineOption.NO_UNIMPLICATED_FILES)){
+        StringBuilder errorMessage = new StringBuilder();
+        errorMessage.append(warningMessage + "\n");
+        for (String lPath : lFilePathsInBaseDirectory) {
+          errorMessage.append(lPath + "\n");
+        }
+        throw new ExManifestBuilder(errorMessage.toString());
+      } else {
+        Logger.logWarning(warningMessage);
+        for (String lPath : lFilePathsInBaseDirectory) {
+          Logger.logInfo(lPath);
+        }
       }
     }
     
