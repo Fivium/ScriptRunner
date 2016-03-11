@@ -124,7 +124,8 @@ implements FileResolver {
           errorMessage.append(lPath + "\n");
         }
         throw new ExManifestBuilder(errorMessage.toString());
-      } else {
+      }
+      else {
         Logger.logWarning(warningMessage);
         for (String lPath : lFilePathsInBaseDirectory) {
           Logger.logInfo(lPath);
