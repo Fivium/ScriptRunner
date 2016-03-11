@@ -89,6 +89,7 @@ public class CommandLineWrapper {
     gCommandLineOptions.addOption(CommandLineOption.ADDITIONAL_PROPERTIES.getArgString(), true, "(Build only) Location of the additional properties file for the builder.");
 
     gCommandLineOptions.addOption(CommandLineOption.NO_UNIMPLICATED_FILES.getArgString(), false, "(Build only) Error (rather than warn) if files are found in source directory but not implicated by manifest builder rules.");
+    gCommandLineOptions.addOption(CommandLineOption.VERIFY_LOADERS.getArgString(), false, "(Build only) Validate that the Loader files can be found at build time.");
     
     //gCommandLineOptions.addOption("help", false, "Prints help.");
   }

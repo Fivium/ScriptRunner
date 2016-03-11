@@ -85,7 +85,8 @@ public class Main {
         }
       }
       else if(lCommandLineOptions.hasOption(CommandLineOption.BUILD)){
-        ScriptBuilder.run(lCommandLineOptions);
+        ScriptBuilder lScriptBuilder = new ScriptBuilder(lCommandLineOptions);
+        lScriptBuilder.run();
         Logger.logAndEcho("Build completed successfully");        
       } 
       else if(lCommandLineOptions.hasOption(CommandLineOption.INSTALL)){
