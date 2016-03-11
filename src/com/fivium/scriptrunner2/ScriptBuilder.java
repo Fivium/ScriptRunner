@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
@@ -155,13 +156,23 @@ implements FileResolver {
       }
 
       //Verify all loaders exist
+      ArrayList<String> lUnverifiedLoaders = new ArrayList<String>();
       for (MetadataLoader lLoader : lParser.getLoaderMap().values()) {
         try {
           this.resolveFile(lLoader.getLoaderFilePath());
         }
         catch (FileNotFoundException e) {
-          throw new ExManifest("Loader file for loader " + lLoader.getName() + " cannot be located", e);
+          lUnverifiedLoaders.add(lLoader.getName());
         }
+      }
+
+      if (!lUnverifiedLoaders.isEmpty()) {
+        StringBuilder errorMessage = new StringBuilder();
+        errorMessage.append(lUnverifiedLoaders.size() + " Loader files cannot be located:\n");
+        for (String loaderName : lUnverifiedLoaders) {
+          errorMessage.append(loaderName + "\n");
+        }
+        throw new ExManifest(errorMessage.toString());
       }
     }
     
