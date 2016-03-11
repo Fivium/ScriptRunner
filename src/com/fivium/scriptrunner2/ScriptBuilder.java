@@ -182,7 +182,7 @@ implements FileResolver {
 
   /**
    * Gets a file from this ScriptRunner's base directory.
-   * @param pPath A path to the desired file, relative to the base directory.
+   * @param pPath A path to the desired file, relative to the source directory.
    * @return The requested file.
    * @throws FileNotFoundException If the file does not exist.
    */
@@ -198,7 +198,7 @@ implements FileResolver {
   }
 
   /**
-   * Gets the path of the given file relativised to the current base directory and normalised.
+   * Gets the path of the given file relativised to the current source directory and normalised.
    * @param pFile File to get path of.
    * @return Relativised file path.
    */
