@@ -24,11 +24,29 @@ import org.apache.commons.io.FileUtils;
  */
 public class DatabaseSourceLoader 
 extends SourceLoader {
-    
+
+  private boolean implicitCommit = false;
+
+  /**
+   * Default Constructor
+   */
+  public DatabaseSourceLoader(){
+    super();
+  }
+
+  /**
+   * Constructor to force commit of active transaction once file has been loaded
+   * @param pImplicitCommit
+   */
+  public DatabaseSourceLoader(boolean pImplicitCommit){
+    super();
+    this.implicitCommit = pImplicitCommit;
+  }
+
   @Override
   public void doPromote(ScriptRunner pScriptRunner, PromotionFile pFile)
   throws ExPromote {
-    
+
     long lStart = System.currentTimeMillis();
     Logger.logInfo("\nPromote DatabaseSource " + pFile.getFilePath());
     //Read the DBSource file in
@@ -62,6 +80,10 @@ extends SourceLoader {
       for(ScriptExecutable lExecutable : lExecutableList){
         lExecutable.execute(pScriptRunner.getDatabaseConnection());
       }
+      //  if the transaction is still active at the end of the script AND loader has implicitCommit flag set, perform a commit.
+      if (implicitCommit)
+        pScriptRunner.getDatabaseConnection().unsafelyCommit();
+
     }
     catch (Throwable th){      
       throw new ExPromote("Failed to promote DatabaseSource " + pFile.getFilePath() + ": " + th.getMessage(), th);

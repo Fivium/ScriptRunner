@@ -11,7 +11,7 @@ public abstract class BuiltInLoader
 implements Loader {
   
   public static final String LOADER_NAME_DB_SOURCE = "DatabaseSource";
-  public static final String LOADER_NAME_DB_SOURCE_WITH_COMMIT = "DatabaseSourceWithCommit";
+  public static final String LOADER_NAME_DB_SOURCE_WITH_COMMIT = "DatabaseSourceImplicitCommit";
   public static final String LOADER_NAME_SCRIPTRUNNER_UTIL = "ScriptRunnerUtil";
   public static final String LOADER_NAME_PATCH = "Patch";
   /** Special loader name for the builder only - files associated with this loader are ignored when constructing the manifest. */
@@ -21,7 +21,7 @@ implements Loader {
   static {
     gBuiltInLoaderMap = new HashMap<String, Loader>();
     gBuiltInLoaderMap.put(LOADER_NAME_DB_SOURCE, new DatabaseSourceLoader());
-    gBuiltInLoaderMap.put(LOADER_NAME_DB_SOURCE_WITH_COMMIT, new DatabaseSourceWithCommitLoader());
+    gBuiltInLoaderMap.put(LOADER_NAME_DB_SOURCE_WITH_COMMIT, new DatabaseSourceLoader(true));
     gBuiltInLoaderMap.put(LOADER_NAME_SCRIPTRUNNER_UTIL, UtilLoader.getInstance());
     gBuiltInLoaderMap.put(LOADER_NAME_PATCH, new PatchScriptLoader());
   }
