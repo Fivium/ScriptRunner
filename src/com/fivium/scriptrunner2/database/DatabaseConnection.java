@@ -474,4 +474,19 @@ public class DatabaseConnection {
   public String getJDBCConnectString() {
     return mJDBCConnectString;
   }
+
+  /**
+   * Commits the current active transaction, supressing any errors (they will be logged as warnings).
+   */
+  public void unsafelyCommit(){
+    try {
+      if(isTransactionActive(mPromoteConnection)){
+        mPromoteConnection.commit();
+        Logger.logWarning("Uncommitted data detected on promote connection - Committing");
+      }
+    }
+    catch (SQLException e) {
+      Logger.logWarning("Error committing promotion connection: " + e.getMessage());
+    }
+  }
 }
